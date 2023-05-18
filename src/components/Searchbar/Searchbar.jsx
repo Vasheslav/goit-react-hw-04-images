@@ -1,69 +1,63 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import { Form, Button, Label, Input } from './Searchbar.styled';
 
 const inform = () => toast('Enter a value');
 
-export class Searchbar extends Component {
-  state = {
-    imagesName: '',
-    isButtonDisabled: false,
+export function Searchbar({ onSubmit }) {
+  const [imagesName, setImagesName] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const handleNameChange = ev => {
+    setImagesName(ev.currentTarget.value.toLowerCase());
   };
 
-  handleNameChange = ev => {
-    this.setState({ imagesName: ev.currentTarget.value.toLowerCase() });
-  };
-
-  handleSubmit = ev => {
+  const handleSubmit = ev => {
     ev.preventDefault();
 
-    if (this.state.imagesName.trim() === '') {
+    if (imagesName.trim() === '') {
       inform();
       return;
     }
 
-    this.props.onSubmit(this.state.imagesName);
-    this.setState({ isButtonDisabled: true });
+    onSubmit(imagesName);
+    setIsButtonDisabled(true);
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.imagesName !== this.state.imagesName) {
-      this.setState({ isButtonDisabled: false });
-    }
-  }
+  useEffect(() => {
+    setIsButtonDisabled(false);
+  }, [imagesName]);
 
-  render() {
-    return (
-      <header>
-        <Form onSubmit={this.handleSubmit}>
-          <Input
-            type="text"
-            autocomplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={this.state.imagesName}
-            onChange={this.handleNameChange}
-          />
-          <Button type="submit" disabled={this.state.isButtonDisabled}>
-            <Label>Search</Label>
-          </Button>
-        </Form>
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
+  return (
+    <header>
+      <Form onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          autocomplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={imagesName}
+          onChange={handleNameChange}
         />
-      </header>
-    );
-  }
+        <Button type="submit" disabled={isButtonDisabled}>
+          <Label>Search</Label>
+        </Button>
+      </Form>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+    </header>
+  );
 }
 
 Searchbar.propTypes = {
