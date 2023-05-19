@@ -18,7 +18,7 @@ export function ImageGallery({ imageName }) {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState('idle');
-  const [showButton, setShowButton] = useState(0);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     const firstPage = 1;
@@ -46,7 +46,7 @@ export function ImageGallery({ imageName }) {
       .catch(error => messageError());
   }, [imageName]);
 
-  const onChangePage = async () => {
+  const onChangePage = () => {
     let nextPage = page + 1;
     setPage(nextPage);
 
@@ -109,5 +109,3 @@ export function ImageGallery({ imageName }) {
 ImageGallery.propTypes = {
   imageName: PropTypes.string.isRequired,
 };
-
-// test
