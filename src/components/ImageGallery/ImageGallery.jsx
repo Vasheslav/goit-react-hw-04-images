@@ -39,7 +39,7 @@ export function ImageGallery({ imageName }) {
         if (res.data.hits.length === 0) {
           notify();
         }
-        setImages(res.data.hits);
+        setImages(prevImages => [...prevImages, ...res.data.hits]);
         setStatus('resolved');
         setShowButton(res.data.hits.length >= 12);
       })
