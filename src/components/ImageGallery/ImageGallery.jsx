@@ -109,3 +109,5 @@ export function ImageGallery({ imageName }) {
 ImageGallery.propTypes = {
   imageName: PropTypes.string.isRequired,
 };
+
+// test
