@@ -49,7 +49,6 @@ export function ImageGallery({ imageName }) {
   const onChangePage = () => {
     let nextPage = page + 1;
     setPage(nextPage);
-
     axios
       .get(
         `${BASE_URL}?q=${imageName}&page=${nextPage}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`
